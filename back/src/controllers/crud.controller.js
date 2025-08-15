@@ -4,7 +4,7 @@ const db = require ('../config/conexion_DB')
 class crudController {
 
     //obtener los registros de una tabla
-    async obtenerTodos(tablas){
+    async obtenerTodos(tabla){
         const [resultados] = await db.query(`SELECT * FROM ${tabla}`);
         return resultados;      
     }
@@ -21,8 +21,8 @@ async obtenerUno(tabla, idCampo, id){
 //crea un nuevo registro
 async crear(tabla, data){
     try{
-    const[resultado] = await db.query(`INSERT INTO ?? SET ?`,[tabla, data]);
-        return {...data, id:resultado.insertId };
+    const [resultado] = await db.query(`INSERT INTO ?? SET ?`,[tabla, data]);
+        return { ...data, id: resultado.insertId };
     }catch(error) {
         throw error;
     }
@@ -33,7 +33,7 @@ async actualizar(tabla, idCampo, id, data){
     try{
          const[resultado] = await db.query(`UPDATE  ?? SET ? WHERE ?? = ?`,[tabla, data, idCampo, id]);
          if(resultado.affectedRows === 0) {
-            throw new Error('registro no encontrado');
+            throw new Error('Registro no encontrado');
          }
         return await this.obtenerUno(tabla, idCampo, id);
         }catch(error) {
@@ -43,17 +43,17 @@ async actualizar(tabla, idCampo, id, data){
 //Eliminar un registro por ID 
 async eliminar(tabla, idCampo, id){
     try{
-         const[resultado] = await db.query(`DELETE FROM  ?? WHERE ?? = ?`,[tabla, idCampo, id]);
-         if(resultado.affectedRows === 0) {
-            throw new Error('registro no encontrado');
-         }
-        return {message: 'registro eliminado exitosamente'}
+        const[resultado] = await db.query(`DELETE FROM  ?? WHERE ?? = ?`,[tabla, idCampo, id]);
+        if(resultado.affectedRows === 0) {
+            throw new Error('Registro no encontrado');
+        }
+        return {message: 'Registro eliminado exitosamente'};
         }catch(error) {
         throw error;
     }
     }
 
 }
- 
+
 
 module.exports = crudController;

@@ -8,10 +8,10 @@
 <body>
     <nav>
         <h1>Bienvenidos al mundial de futbol</h1>
-        <p>Aquí encontraras el nombre de algunos equipos clasificados al mundial</p>
+        <p>Aquí encontraras el listado de equipos del mundo</p>
     </nav>
     
-<h2>Equipos de futbol clasificados</h2>
+<h2>Equipos de futbol</h2>
 
 <!--Formulario para crear o editar equipos-->
 <form id="datoForm">
@@ -33,11 +33,12 @@
 
 <!--plantilla de renderizado-->
 <template id="templateCard">
-    <div class="card-equipo" style="border: 1px solid #ccc; padding: 16px; border-radius: 8px;width: 250px; box-shadow: 0 2px 5px rgba(0, 0, 0, o.1); display: flex; flex-direction: column;align-items: center;">
+    <div class="card-equipo"
+     style="border: 1px solid #ccc; padding: 16px; border-radius: 8px;width: 250px; box-shadow: 0 2px 5px rgba(0, 0, 0, o.1); display: flex; flex-direction: column;align-items: center;">
         <h3 class="nombreEquipos"></h3>
         <div style="margin-top: 10px;">
             <button class="btn-editar">Editar</button>
-            <button class="btn-Eliminar">Eliminar</button>
+            <button class="btn-eliminar">Eliminar</button>
         </div>
     </div>
 </template>

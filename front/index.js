@@ -1,14 +1,14 @@
-const API_URL = "https://localhost:3000/api/equipos";
+const API_URL = "http://localhost:3000/api/equipos";
 
 //Metodos CRUT para interactuar con la API  equipos
-async function obtenerEquipo() {
+async function obtenerEquipos() {
     const res = await fetch(API_URL);
     const equipos = await res.json();
     return equipos; 
 }
 
-async function crearEquipo() {
-    const res = await fetch(API_URL,{
+async function crearEquipo(data) {
+    const res = await fetch(API_URL, {
 
         method:'POST',
         headers:{
@@ -18,18 +18,16 @@ async function crearEquipo() {
 });
     return await res.json()
 }
-async function actualizarEquipo() {
+async function actualizarEquipo(id, data) {
     const res = await fetch(`${API_URL}/${id}`,{
 
         method:'PUT',
-        headers:{
-            'content-type': 'application/json'
-        },
+        headers:{'content-type': 'application/json'},
         body: JSON.stringify(data)
 });
     return await res.json()
 }
-async function eliminarEquipo() {
+async function eliminarEquipo(id) {
     const res = await fetch(`${API_URL}/${id}`,{
         method:'DELETE',
 });
@@ -37,21 +35,22 @@ async function eliminarEquipo() {
 }
 
 //refencias a los elementos del DOM 
+const id_equipo =document.getElementById('id_equipo')
 const contenedorCards = document.getElementById('contenedorCards');
 const templateCard = document.getElementById('templateCard');
-const datoForm = document.getElementById('');
-const nombre = document.getElementById('');
-const btnCancelar = document.getElementById('');
+const datoForm = document.getElementById('datoForm');
+const nombre = document.getElementById('nombre');
+const btnCancelar = document.getElementById('btnCancelar');
 
 //mostrar equipos al cargar la pagina en el template
-async function mostrarEquipo() {
+async function mostrarEquipos() {
     contenedorCards.innerHTML = '';
-    const equipos = await obtenerEquipo();
+    const equipos = await obtenerEquipos();
     equipos.forEach(equipo =>{
         const clone = templateCard.content.cloneNode(true);
-        clone.querySelector('').textContent = equipos.nombre_equipo;
-        clone.querySelector(''). onclick = () => cargarEquipoParaEditar(equipo);
-        clone.querySelector(''). onclick = () => eliminarEquipoHandler(equipo.id_equipo);
+        clone.querySelector('.nombreEquipos').textContent = equipo.nombre_equipo;
+        clone.querySelector('.btn-editar').onclick = () => cargarEquipoParaEditar(equipo);
+        clone.querySelector('.btn-eliminar').onclick = () => eliminarEquipoHandler(equipo.id_equipo);
         contenedorCards.appendChild(clone);
     })
     
@@ -65,15 +64,15 @@ datoForm.onsubmit = async(e) => {
     } else{
         await crearEquipo(data);
     }
-    datoForm.rest();
+    datoForm.reset();
     id_equipo.value='';
-    await mostrarEquipo();
+    await mostrarEquipos();
 
 }
 
 //cancelar edicion
 btnCancelar.onclick =() => {
-    datoForm.rest();
+    datoForm.reset();
     id_equipo.value = '';
 }
 
@@ -85,12 +84,12 @@ async function cargarEquipoParaEditar(equipo) {
 
 // Eliminar equipo
 async function eliminarEquipoHandler(id) {
-    if (confirm('¿Estas seguro de eliminar este equipo ?')){
-        await eliminarEquipo(id)
+        await eliminarEquipo(id);
+        mostrarEquipos();
     }
     
-}
-mostrarEquipo();
+
+mostrarEquipos();
 
 
 

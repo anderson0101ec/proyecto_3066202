@@ -1,4 +1,4 @@
-const db = require ('../config/conexion_DB')
+const db = require ('../config/conexion_DB');
 
 
 class crudController {
@@ -11,7 +11,7 @@ class crudController {
 //obtener un registro po ID
 async obtenerUno(tabla, idCampo, id){
     try {
-        const [resultado] = await db.query(`SELECT * ?? = ?`,[tabla, idCampo, id]);
+        const [resultado] = await db.query(`SELECT * FROM ?? WHERE ?? = ?`,[tabla, idCampo, id]);
         return resultado[0];
     }catch(error) {
         throw error;
@@ -31,23 +31,23 @@ async crear(tabla, data){
 //actualizar un registro por id
 async actualizar(tabla, idCampo, id, data){
     try{
-         const[resultado] = await db.query(`UPDATE  ?? SET ? WHERE ?? = ?`,[tabla, data, idCampo, id]);
-         if(resultado.affectedRows === 0) {
+         const [resultado] = await db.query(`UPDATE ?? SET ? WHERE ?? = ?`,[tabla, data, idCampo, id]);// Las sentencias de MYSQL no puedden fallar 
+         if (resultado.affectedRows === 0) {
             throw new Error('Registro no encontrado');
          }
         return await this.obtenerUno(tabla, idCampo, id);
         }catch(error) {
-        throw error;
+            throw error;
         }
     }
 //Eliminar un registro por ID 
 async eliminar(tabla, idCampo, id){
     try{
         const[resultado] = await db.query(`DELETE FROM  ?? WHERE ?? = ?`,[tabla, idCampo, id]);
-        if(resultado.affectedRows === 0) {
+        if (resultado.affectedRows === 0) {
             throw new Error('Registro no encontrado');
         }
-        return {message: 'Registro eliminado exitosamente'};
+        return { message: 'Registro eliminado exitosamente'};
         }catch(error) {
         throw error;
     }

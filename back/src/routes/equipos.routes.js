@@ -8,11 +8,11 @@ const tabla = 'equipos';
 const  idCampo = 'id_equipo';
 
 //Rutas para operaciones CRUD 
-router.get('/',async(req, res) =>{
-    try{
+router.get('/',async(req, res) => {
+    try {
         const datos = await crud.obtenerTodos(tabla);
         res.json(datos);
-    }catch (error) {
+    } catch (error) {
         console.error('Error al obtener los equipos', error);
         res.status(500).json({message: 'Error al obtener los equipos', error});
     }
@@ -39,11 +39,10 @@ router.post('/', async(req, res) =>{
 });
 
 router.put('/:id', async(req, res) =>{
-
-    try{
+    try {
         const datoActualizado = await crud.actualizar(tabla, idCampo, req.params.id, req.body);
         res.json(datoActualizado);
-    }catch (error){
+    } catch (error){
         res.status(500).json({error: error.message})
     }
 });
